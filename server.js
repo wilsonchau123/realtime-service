@@ -35,32 +35,32 @@ wss.on('connection', (ws) => {
     });
 });
 // HTTP endpoint for triggering payments
-app.post('/trigger-payment', (req, res) => {
-    console.log('Received POST request:', req.body);
-    const payload = req.body;
+// app.post('/trigger-payment', (req, res) => {
+//     console.log('Received POST request:', req.body);
+//     const payload = req.body;
 
-    if (!payload || payload.type !== 'trigger_payment') {
-        return res.status(400).json({ error: 'Invalid payload' });
-    }
+//     if (!payload || payload.type !== 'trigger_payment') {
+//         return res.status(400).json({ error: 'Invalid payload' });
+//     }
 
-    // Send response back via WebSocket to all connected clients
-    wss.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-            const response = {
-                client_id: payload.client_id,
-                event_type: 'payment_result',
-                event_data: {
-                    success: true,
-                    message: 'Payment triggered successfully',
-                    pay_method: payload.pay_method,
-                },
-            };
-            client.send(JSON.stringify(response));
-        }
-    });
+//     // Send response back via WebSocket to all connected clients
+//     wss.clients.forEach((client) => {
+//         if (client.readyState === WebSocket.OPEN) {
+//             const response = {
+//                 client_id: payload.client_id,
+//                 event_type: 'payment_result',
+//                 event_data: {
+//                     success: true,
+//                     message: 'Payment triggered successfully',
+//                     pay_method: payload.pay_method,
+//                 },
+//             };
+//             client.send(JSON.stringify(response));
+//         }
+//     });
 
-    res.status(200).json({ message: 'Payment triggered successfully' });
-});
+//     res.status(200).json({ message: 'Payment triggered successfully' });
+// });
 
 // Handle WebSocket payloads
 function handlePayload(ws, payload) {

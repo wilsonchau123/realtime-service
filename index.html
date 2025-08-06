@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Client</title>
+</head>
+<body>
+    <h1>WebSocket Client</h1>
+    <button id="sendPayment">Send Payment</button>
+    <button id="sendResult">Send Payment Result</button>
+
+    <script>
+        const ws = new WebSocket('ws://localhost:8080');
+
+        ws.onopen = () => {
+            console.log('Connected to the server');
+        };
+
+        ws.onmessage = (event) => {
+            console.log('Message from server:', event.data);
+        };
+
+        document.getElementById('sendPayment').onclick = () => {
+            const paymentPayload = {
+                type: 'payment_trigger',
+                client_id: 'client123',
+                amount: 101.0,
+                order_reference: 'order456',
+                timestamp: Date.now(),
+                pay_method: 'card',
+                app_id: '202409121558001',
+                ip: "http://192.168.50.51:18080",
+                base_url: "https://demo.stylefixapps.com",
+                app_secret: 'nhjtokYvdgVGAQqasgQLWEJfDE!zX!YNfzBMqAWLdKUi!MJqfNWSyqZFtxxtZTk!',
+                nonce_str: 'BlW41Z20zy801bcjBbBx7fQVYkHNoAm7',
+            };
+            ws.send(JSON.stringify(paymentPayload));
+        };
+
+        document.getElementById('sendResult').onclick = () => {
+            const resultPayload = {
+                type: 'payment_result',
+                client_id: 'client123',
+                event_type: 'payment_result',
+                event_data: {
+                    success: true,
+                    message: 'Payment processed successfully',
+                    pay_method: 'credit_card',
+                },
+            };
+            ws.send(JSON.stringify(resultPayload));
+        };
+    </script>
+</body>
+</html>

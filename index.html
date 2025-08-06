@@ -11,7 +11,7 @@
     <button id="sendResult">Send Payment Result</button>
 
     <script>
-        const ws = new WebSocket('ws://localhost:8080');
+        const ws = new WebSocket('ws://realtime-service-8khq4n0w5-wilsonchau123s-projects.vercel.app:8080');
 
         ws.onopen = () => {
             console.log('Connected to the server');

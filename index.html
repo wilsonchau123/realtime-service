@@ -11,7 +11,8 @@
     <button id="sendResult">Send Payment Result</button>
 
     <script>
-        const ws = new WebSocket(`wss://${window.location.host}`);
+        const ws = new WebSocket(`wss://${window.location.host}:8080`); // Update to your WebSocket server URL
+
         ws.onopen = () => {
             console.log('Connected to the server');
         };
